@@ -2,7 +2,6 @@
 
 **A private, local-first money dashboard for families and small businesses.** Track income and expenses, set category budgets, schedule monthly items, and export a month to CSV. The interface is available in **English, French, and Spanish**. It runs with Python's standard library—no subscription, account, or package installation.
 
-**بالعربية:** هذا إصدار ويب أقوى من دفتر المصاريف الأول. يدعم مساحات مستقلة للعائلة والشركة، ميزانيات شهرية، مصاريف ودخل متكرر، وتصدير CSV. الواجهة بالإنجليزية والفرنسية والإسبانية؛ بياناتك تبقى على جهازك.
 
 ![Masroofi dashboard with example business data](docs/overview.png)
 
