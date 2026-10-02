@@ -4,3 +4,5 @@ __pycache__/
 .venv/
 expenses.json
 *.csv
+*.sqlite3
+*.sqlite3-*

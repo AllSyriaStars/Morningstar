@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b2a">
+  <title>Masroofi — Money made clear</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="Masroofi home">
+        <span class="brand-mark">m<span>·</span></span>
+        <span><strong>masroofi</strong><small data-i18n="brandTag">Money made clear</small></span>
+      </a>
+
+      <div class="workspace-block">
+        <div class="eyebrow" data-i18n="workspaceLabel">WORKSPACE</div>
+        <div class="workspace-picker">
+          <select id="workspace-select" aria-label="Workspace"></select>
+          <button id="new-workspace" class="icon-button" type="button" data-i18n-title="newWorkspace" title="New workspace" aria-label="New workspace">+</button>
+        </div>
+        <div id="workspace-kind" class="workspace-kind"></div>
+      </div>
+
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" type="button" data-tab="overview"><span class="nav-icon">▦</span><span data-i18n="overview">Overview</span></button>
+        <button class="nav-item" type="button" data-tab="transactions"><span class="nav-icon">⇄</span><span data-i18n="transactions">Transactions</span></button>
+        <button class="nav-item" type="button" data-tab="budgets"><span class="nav-icon">◫</span><span data-i18n="budgets">Budgets</span></button>
+        <button class="nav-item" type="button" data-tab="recurring"><span class="nav-icon">↻</span><span data-i18n="recurring">Recurring</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="privacy-card">
+          <span class="privacy-icon">◈</span>
+          <strong data-i18n="privateTitle">Private by design</strong>
+          <p data-i18n="privateText">Your data stays on this computer.</p>
+        </div>
+        <label class="language-control" for="language"><span data-i18n="language">Language</span>
+          <select id="language">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="es">Español</option>
+          </select>
+        </label>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow" data-i18n="financialWorkspace">FINANCIAL WORKSPACE</div>
+          <h1 id="page-title" data-i18n="overview">Overview</h1>
+          <p id="page-subtitle" class="muted" data-i18n="overviewSubtitle">A clear view of your month.</p>
+        </div>
+        <div class="top-actions">
+          <label class="month-control" for="month"><span data-i18n="month">Month</span><input id="month" type="month"></label>
+          <button id="export-button" class="button button-secondary" type="button"><span aria-hidden="true">↓</span> <span data-i18n="exportCsv">Export CSV</span></button>
+          <button id="add-button" class="button button-primary" type="button"><span aria-hidden="true">+</span> <span data-i18n="addTransaction">Add transaction</span></button>
+        </div>
+      </header>
+
+      <div id="empty-workspaces" class="welcome-card" hidden>
+        <div class="welcome-orb">✦</div>
+        <div class="eyebrow" data-i18n="welcomeEyebrow">START HERE</div>
+        <h2 data-i18n="welcomeTitle">Make room for better money decisions.</h2>
+        <p data-i18n="welcomeText">Create a family or business workspace to track income, expenses, budgets, and recurring costs in one place.</p>
+        <button id="welcome-create" class="button button-primary" type="button" data-i18n="createWorkspace">Create workspace</button>
+      </div>
+
+      <div id="workspace-content" hidden>
+        <section id="overview-panel" class="panel active" aria-label="Overview">
+          <div id="summary-cards" class="summary-grid"></div>
+          <div class="two-column">
+            <section class="surface">
+              <div class="section-heading"><div><div class="eyebrow" data-i18n="spendingSnapshot">SPENDING SNAPSHOT</div><h2 data-i18n="whereMoneyGoes">Where your money goes</h2></div></div>
+              <div id="category-breakdown"></div>
+            </section>
+            <section class="surface">
+              <div class="section-heading"><div><div class="eyebrow" data-i18n="recentActivity">RECENT ACTIVITY</div><h2 data-i18n="latestTransactions">Latest transactions</h2></div><button class="text-button" type="button" data-tab="transactions" data-i18n="viewAll">View all</button></div>
+              <div id="recent-transactions"></div>
+            </section>
+          </div>
+          <section class="surface overview-budgets">
+            <div class="section-heading"><div><div class="eyebrow" data-i18n="monthlyPlan">MONTHLY PLAN</div><h2 data-i18n="budgetHealth">Budget health</h2></div><button class="text-button" type="button" data-tab="budgets" data-i18n="manageBudgets">Manage budgets</button></div>
+            <div id="overview-budget-list" class="budget-grid"></div>
+          </section>
+        </section>
+
+        <section id="transactions-panel" class="panel surface" aria-label="Transactions">
+          <div class="section-heading"><div><div class="eyebrow" data-i18n="activityLog">ACTIVITY LOG</div><h2 data-i18n="allTransactions">All transactions</h2></div><span id="transaction-count" class="count-pill"></span></div>
+          <div class="transaction-tools"><input id="transaction-search" type="search" data-i18n-placeholder="searchTransactions" placeholder="Search category, person, or note" aria-label="Search transactions"><select id="transaction-filter" aria-label="Filter transaction type"><option value="all" data-i18n="allTypes">All types</option><option value="expense" data-i18n="expense">Expense</option><option value="income" data-i18n="income">Income</option></select></div>
+          <div id="transaction-list"></div>
+        </section>
+
+        <section id="budgets-panel" class="panel" aria-label="Budgets">
+          <div class="section-heading panel-heading"><div><div class="eyebrow" data-i18n="planAhead">PLAN AHEAD</div><h2 data-i18n="monthlyBudgets">Monthly budgets</h2><p class="muted" data-i18n="budgetHint">Set a limit for each expense category. A zero amount removes a budget.</p></div><button id="add-budget" class="button button-primary" type="button" data-i18n="setBudget">Set budget</button></div>
+          <div id="budget-list" class="budget-grid"></div>
+        </section>
+
+        <section id="recurring-panel" class="panel" aria-label="Recurring">
+          <div class="section-heading panel-heading"><div><div class="eyebrow" data-i18n="stayOnTop">STAY ON TOP</div><h2 data-i18n="recurringTransactions">Recurring transactions</h2><p class="muted" data-i18n="recurringHint">Automatically add monthly items on their due day. Past entries stay after a rule is removed.</p></div><button id="add-recurring" class="button button-primary" type="button" data-i18n="addRecurring">Add recurring</button></div>
+          <div id="recurring-list" class="card-list"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="workspace-dialog" class="modal">
+    <form id="workspace-form" class="modal-card">
+      <div class="modal-header"><div><div class="eyebrow" data-i18n="getOrganized">GET ORGANIZED</div><h2 data-i18n="newWorkspace">New workspace</h2></div><button class="close-button" type="button" data-close aria-label="Close">×</button></div>
+      <label><span data-i18n="workspaceName">Workspace name</span><input name="name" maxlength="80" required data-i18n-placeholder="workspacePlaceholder" placeholder="e.g. Our home"></label>
+      <div class="form-row">
+        <label><span data-i18n="workspaceType">Type</span><select name="kind"><option value="family" data-i18n="family">Family</option><option value="business" data-i18n="business">Business</option></select></label>
+        <label><span data-i18n="currency">Currency</span><select name="currency"><option>EUR</option><option>USD</option><option>GBP</option><option>CAD</option><option>AUD</option><option>MXN</option></select></label>
+      </div>
+      <p class="form-hint" data-i18n="currencyHint">Use one currency per workspace. Amounts are not converted.</p>
+      <div class="modal-actions"><button class="button button-secondary" type="button" data-close data-i18n="cancel">Cancel</button><button class="button button-primary" type="submit" data-i18n="createWorkspace">Create workspace</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="transaction-dialog" class="modal">
+    <form id="transaction-form" class="modal-card">
+      <div class="modal-header"><div><div class="eyebrow" data-i18n="keepTrack">KEEP TRACK</div><h2 id="transaction-dialog-title" data-i18n="addTransaction">Add transaction</h2></div><button class="close-button" type="button" data-close aria-label="Close">×</button></div>
+      <input name="id" type="hidden">
+      <div class="form-row"><label><span data-i18n="type">Type</span><select name="kind"><option value="expense" data-i18n="expense">Expense</option><option value="income" data-i18n="income">Income</option></select></label><label><span data-i18n="date">Date</span><input name="date" type="date" required></label></div>
+      <div class="form-row"><label><span data-i18n="amount">Amount</span><input name="amount" type="number" min="0.01" max="9999999999.99" step="0.01" required placeholder="0.00"></label><label><span data-i18n="category">Category</span><input name="category" list="categories" maxlength="100" required data-i18n-placeholder="categoryPlaceholder" placeholder="e.g. Groceries"></label></div>
+      <datalist id="categories"></datalist>
+      <label><span data-i18n="personVendor">Person / vendor</span><input name="party" maxlength="100" data-i18n-placeholder="personVendorPlaceholder" placeholder="Who paid or received it?"></label>
+      <label><span data-i18n="noteReference">Note / reference</span><textarea name="note" maxlength="500" rows="3" data-i18n-placeholder="notePlaceholder" placeholder="Optional details or invoice reference"></textarea></label>
+      <div class="modal-actions"><button class="button button-secondary" type="button" data-close data-i18n="cancel">Cancel</button><button class="button button-primary" type="submit" data-i18n="saveTransaction">Save transaction</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="budget-dialog" class="modal">
+    <form id="budget-form" class="modal-card">
+      <div class="modal-header"><div><div class="eyebrow" data-i18n="planAhead">PLAN AHEAD</div><h2 data-i18n="setBudget">Set budget</h2></div><button class="close-button" type="button" data-close aria-label="Close">×</button></div>
+      <label><span data-i18n="category">Category</span><input name="category" list="budget-categories" maxlength="100" required></label><datalist id="budget-categories"></datalist>
+      <label><span data-i18n="monthlyLimit">Monthly limit</span><input name="amount" type="number" min="0" max="9999999999.99" step="0.01" required placeholder="0.00"></label>
+      <p class="form-hint" data-i18n="budgetZeroHint">Enter 0 to remove an existing budget.</p>
+      <div class="modal-actions"><button class="button button-secondary" type="button" data-close data-i18n="cancel">Cancel</button><button class="button button-primary" type="submit" data-i18n="saveBudget">Save budget</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="recurring-dialog" class="modal">
+    <form id="recurring-form" class="modal-card">
+      <div class="modal-header"><div><div class="eyebrow" data-i18n="automate">AUTOMATE</div><h2 data-i18n="addRecurring">Add recurring</h2></div><button class="close-button" type="button" data-close aria-label="Close">×</button></div>
+      <div class="form-row"><label><span data-i18n="type">Type</span><select name="kind"><option value="expense" data-i18n="expense">Expense</option><option value="income" data-i18n="income">Income</option></select></label><label><span data-i18n="amount">Amount</span><input name="amount" type="number" min="0.01" max="9999999999.99" step="0.01" required></label></div>
+      <label><span data-i18n="category">Category</span><input name="category" list="categories" maxlength="100" required></label>
+      <div class="form-row"><label><span data-i18n="dayOfMonth">Day of month</span><input name="day" type="number" min="1" max="31" required></label><label><span data-i18n="startMonth">Start month</span><input name="start_month" type="month" required></label></div>
+      <label><span data-i18n="personVendor">Person / vendor</span><input name="party" maxlength="100"></label>
+      <label><span data-i18n="noteReference">Note / reference</span><input name="note" maxlength="500"></label>
+      <p class="form-hint" data-i18n="recurringDayHint">For short months, a 29th–31st due date falls on the last day.</p>
+      <div class="modal-actions"><button class="button button-secondary" type="button" data-close data-i18n="cancel">Cancel</button><button class="button button-primary" type="submit" data-i18n="saveRule">Save rule</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
